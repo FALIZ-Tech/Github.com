@@ -2,64 +2,36 @@
   "expo": {
     "name": "Agon Preview",
     "slug": "agon-preview",
-    "version": "2.4.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "gamesiteonline",
     "userInterfaceStyle": "dark",
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/android-icon-foreground.png",
       "resizeMode": "contain",
-      "backgroundColor": "#05070E"
+      "backgroundColor": "#070B14"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gamesiteonline.app",
-      "config": {
-        "usesNonExemptEncryption": false
-      }
+      "bundleIdentifier": "com.gamesiteonline.app"
     },
     "android": {
       "package": "com.gamesiteonline.app",
-      "versionCode": 240,
       "adaptiveIcon": {
-        "backgroundColor": "#05070E",
+        "backgroundColor": "#070B14",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "edgeToEdgeEnabled": true,
-      "navigationBar": {
-        "backgroundColor": "#05070E",
-        "barStyle": "light-content"
-      },
-      "permissions": [
-        "INTERNET",
-        "ACCESS_NETWORK_STATE"
-      ],
-      "allowBackup": false
+      "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+      "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      [
-        "expo-secure-store",
-        {
-          "faceIDPermission": "Allow $(PRODUCT_NAME) to access secure storage for GitHub token."
-        }
-      ]
-    ],
     "extra": {
       "eas": {
         "projectId": "552f0665-e30d-4f11-9ea9-97bc22a22809"
-      },
-      "githubClientId": "${GITHUB_CLIENT_ID}",
-      "githubOrg": "gamesiteonline"
+      }
     },
     "updates": {
       "url": "https://u.expo.dev/552f0665-e30d-4f11-9ea9-97bc22a22809"

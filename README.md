@@ -1,173 +1,161 @@
-# GameSiteOnline — Premium GitHub-Powered Gaming & Developer Platform
-
-> **Package:** `com.gamesiteonline.app`  
-> **Version:** 2.4.0 (build 240)  
-> **Theme:** Deep black/navy • GitHub dark UI • Blue/cyan neon • Glassmorphism • Particle FX  
-> **GitHub:** github.com/gamesiteonline
-
-## ✨ Features Implemented
-
-### Brand & Visual Design
-- Deep black/navy gradients (#05070E → #0A1020 → #111A2E)
-- Glassmorphism cards with BlurView (expo-blur) + border translucency
-- Neon blue/cyan glow, soft reflections, 3D parallax via Reanimated
-- Particle field background (18 floating neon dots, 60fps)
-- GameSiteOnline logo used for launcher, splash, header, about, intro
-
-### Intro / Splash
-1. Dark background fade in
-2. Logo scales with back-easing + rotateY parallax loop
-3. Cyan particles orbiting
-4. White reflection sweep across logo
-5. Title "GAMESITEONLINE" with neon text shadow
-6. Auto finishes 3.8s, skip on first launch only (AsyncStorage flag)
-
-### Authentication & Security (CRITICAL)
-- **NO hardcoded PAT** in source/apk/assets/logs
-- SecureStore (Android Keystore / iOS Keychain) for token vault
-- HTTPS only to api.github.com
-- Least-privilege validation via GET /user before storing
-- Token meta with expiry tracking
-- Secure logout wipes SecureStore + AsyncStorage caches
-- 401 session expiry handling, 403/429 rate-limit handling
-- Demo mode uses `__demo_only...` placeholder, no real token
-- Production recommendation: OAuth Device Flow `POST /login/device/code` with env `GITHUB_CLIENT_ID`
-
-### Home Dashboard
-- GitHub avatar with online dot, name, bio, location/company chips
-- Animated counters for followers/following/repos/stars
-- Neon stats: Uptime 98.7%, 60fps, Secure
-- Recently updated repos, live activity feed
-
-### Repositories
-- Search, sort (updated/stars/name), filter (all/public/private/favorites)
-- Pull-to-refresh, infinite scroll (page+1), favorites via AsyncStorage
-- Beautiful animated cards with language dot, topics, private badge
-
-### Repository Details
-Tabs: Overview | Code | Commits | Branches | Issues | PRs | Releases
-- **Overview:** desc, stars/forks/watchers/issues, license, language, topics
-- **Code:** File browser with folder navigation, back/root, file size, type icons → FileViewer
-- **Branches:** List, switch, current badge
-- **Commits:** Message, author, date, SHA, filesChanged
-- **Issues:** Number, title, author, comments, labels with colors
-- **PRs:** Number, additions/deletions, state badge
-- **Releases:** Version, notes, assets with download counts
-
-### File Browser & Code Editor
-- File viewing with line numbers, selectable text, copy/share
-- Mobile editor with multiline TextInput, line count, branch edit, tools row (Copy/Select All/Find/Bracket/Save)
-- **Commit flow:** Review Changes (diff preview) → Commit Message + Branch → Confirm Alert
-- Notes production PUT /repos/{owner}/{repo}/contents/{path} logic
-
-### GitHub Management
-- Browsing repos via service layer, file create/edit/delete UI ready
-- Branches, issues, comments, PRs, releases, notifications, profile, orgs placeholders with secure permission checks (never bypass)
-- Destructive actions require confirmation
-
-### Notifications
-- Types: mention, PR, issue, star, commit
-- Unread dots, glow cards, filter all/unread, mark all read, badge 3
-
-### Global Search
-- Debounced 500ms search for repositories/users/issues
-- Type chips, suggestions, empty state with particles
-
-### Navigation
-- Bottom tabs: Home | Repositories | Activity | Notifications | Profile (animated icons, glow active)
-- Stack: RepoDetails → FileViewer → CodeEditor, Search, Settings, About
-- Edge-to-edge UI, dark theme, adaptive icon
-
-### Loading & Error States
-- Skeleton shimmer via Reanimated
-- Custom ErrorView with icons for network/ratelimit/auth/api + Retry
-- Empty results handled
-
-### Offline & Performance
-- Virtualized FlatLists, lazy loading, Image caching via expo-image (ready)
-- Local caching of safe non-sensitive data via AsyncStorage
-- Debounced search, efficient async, pagination
-- Rate-limit handling
-
-### Android Config
-- `com.gamesiteonline.app`, versionCode 240, edgeToEdgeEnabled, navigationBar dark
-- Adaptive icon foreground/background/monochrome from supplied logo
-- Permissions only INTERNET + ACCESS_NETWORK_STATE, allowBackup false
-
-### Architecture
-```
-lib/
-  theme.ts       → colors, gradients, radii
-  auth.ts        → SecureStore Keystore wrapper
-  github.ts      → Dedicated service layer, mock fallback for demo/offline
-  mockData.ts    → Rich mock repos/commits/issues/PRs/releases
-  favorites.ts   → AsyncStorage favorites
-components/
-  GlassCard, ParticleBackground, Skeleton, GlowButton, AnimatedCounter, RepoCard, ErrorView
-screens/
-  IntroScreen, AuthScreen, HomeScreen, RepositoriesScreen, ActivityScreen,
-  NotificationsScreen, ProfileScreen, RepoDetailsScreen, FileViewerScreen,
-  CodeEditorScreen, SearchScreen, SettingsScreen, AboutScreen
-App.tsx → Phase check (intro/auth/main) + NavigationContainer
-```
-
-No API logic inside UI components.
-
-### Security Checklist (verified)
-- ✅ No credentials in source/assets
-- ✅ No logging tokens
-- ✅ SecureStore
-- ✅ HTTPS
-- ✅ Least-privilege
-- ✅ Secure logout
-- ✅ Session expiry & revocation handling
-- ✅ Rate-limit handling
-- ✅ Network config secure
-
-### Signing & Release
-Debug: Expo Go works out of box.
-
-Release production:
-```bash
-# Set env secrets (never commit)
-export GAMESITE_KEYSTORE_PATH=/secure/release.keystore
-export GAMESITE_KEYSTORE_PASSWORD=***
-export GAMESITE_KEY_ALIAS=gamesiteonline
-export GAMESITE_KEY_PASSWORD=***
-export GITHUB_CLIENT_ID=Iv1.xxxxx
-
-# EAS Build signed AAB
-npx eas build --platform android --profile production
-# Or local:
-cd android && ./gradlew bundleRelease
-```
-Configure `android.adaptiveIcon` uses supplied logo. See SettingsScreen for full gradle snippet.
-
-Store keystore outside repo, use EAS secrets or GitHub Actions secrets.
-
-### Final Flow Tested
-Intro → Auth (PAT/Demo) → Dashboard → Repositories → RepoDetails → Code → FileViewer → CodeEditor → Review→Commit → Notifications → Search → Profile → About → Secure Logout
-
-### About Page
-Includes version, GitHub link, security info, third-party notices, GitHub API attribution, tech stack, package info.
-
-## Running
-```bash
-npm install
-npx expo start
-# scan QR in Expo Go or run web
-```
-
-## Logo Usage
-Supplied icon.png used for:
-- launcher icon (expo.icon + adaptive)
-- splash-icon
-- intro cinematic logo with reflection
-- auth header
-- home header
-- profile header
-- about page hero
-Never redesigned, only neon glow wrapper.
+# GameSiteOnline ⚡🎮
+> **Premium GitHub-Powered Gaming & Developer Platform**  
+> Official Mobile Application connected to [github.com/gamesiteonline](https://github.com/gamesiteonline)  
+> Application Package: `com.gamesiteonline.app`
 
 ---
-© 2026 GameSiteOnline • Built with Reanimated, Blur, SecureStore, GitHub API
+
+## 🌟 Overview
+
+**GameSiteOnline** is a high-performance, futuristic Android application designed for developers and gamers. Seamlessly connected to the `gamesiteonline` GitHub organization and personal developer hub, it bridges source code management, retro gaming engines, WebAssembly DOSBox emulators, and dynamic project releases into a unified glassmorphism dashboard.
+
+---
+
+## 🎨 Brand & Visual Design
+
+- **Deep Black & Navy Canvas**: `#070B14`, `#0D1117`, `#0A0F1D`
+- **Neon Cyan & Blue Glow**: `#00F0FF`, `#38BDF8`, `#2563EB`
+- **Glassmorphic Paneling**: Frosted transparency with soft edge reflections and glowing borders
+- **Performance-Tuned Particle Engine**: Floating light particles customizable in Settings
+- **Official Branding**: The authentic GameSiteOnline chevron glyph is utilized throughout the launcher icon, splash screen, cinematic intro, navigation headers, loading screens, and about documentation.
+
+---
+
+## 🚀 Key Features
+
+### 1. Cinematic Intro & Splash Screen
+- Smooth multi-stage entrance animation
+- Dark ambient backdrop with glowing cyan particle halos
+- Glass reflection sweep across the GameSiteOnline emblem
+- 3D parallax orientation tilt
+- "GAMESITEONLINE" brand reveal with 1-tap skip support and local persistence
+
+### 2. GitHub Authentication & Zero-Trust Security
+- **Official RFC 8628 GitHub Device Flow**: Direct device code authorization (`XXXX-YYYY`) verified on `https://github.com/login/device`. No secrets entered into third-party proxies.
+- **Hardware-Backed Encryption**: Tokens stored using Android Keystore via `expo-secure-store` (`SecureStorage`).
+- **Least-Privilege Scopes**: Scoped to `repo`, `read:user`, and `notifications`.
+- **Zero Embedded Secrets**: Absolutely no Personal Access Tokens or API keys baked into the APK binary.
+- **Guest Explorer Mode**: Instant access to browse all 58+ repositories, commit histories, code files, and release artifacts without entering credentials.
+
+### 3. Dashboard (Home)
+- Real-time GitHub profile metrics: Avatar, bio, location, followers (128), following (16), repositories (58), total stars (240+)
+- **Ecosystem Tech Stack**: Multi-segmented distribution chart highlighting TypeScript (48%), Python (26%), JavaScript (16%), and HTML/CSS (10%)
+- **Featured Game Engines**: Quick access to flagship projects (`SIGNO-GAME`, `dos-games`, `mobile-games`, `fad-3d`)
+- **Live Git Activity Stream**: Recent commit pushes, releases, and branch updates
+- **Quick Launch Bar**: 1-tap shortcuts to all 58 repos, releases, stream, and notification center
+
+### 4. Comprehensive Repository Explorer
+- Full repository directory with public/private visibility badges
+- GitHub language indicators with official color codes
+- Debounced live search across names, descriptions, and topics
+- Multi-criteria sorting (Recently Updated, Star Count, Forks, Alphabetical)
+- Category filters (All, Games, TypeScript, JavaScript, Python, Starred)
+- Star / favorite toggle with local offline persistence
+
+### 5. Repository Details & GitHub-Style File Browser
+- **Overview**: Description, stargazers, forks, watchers, license, default branch, one-tap clone URL copy, and live demo links
+- **Markdown README Renderer**: Fenced code blocks with copy-to-clipboard, typography headers, blockquotes, and lists
+- **File Explorer**: Drill down folder hierarchies with breadcrumb navigation and back stack
+- **Source Code Viewer**: Line numbers, monospaced code layout, copy action, and in-file search
+- **Branch Switcher**: Real-time branch selection (`main`, `dev`, `feature/neon-audio-matrix`)
+- **Git Commits**: Commit messages, author avatars, timestamps, and commit SHA copy
+- **Issue Tracker**: Search, filter open/closed issues, create new issues, add comments, and close/reopen
+- **Pull Requests**: Pull request browser with head/base branch indicators and merge statuses
+- **Releases Tab**: Direct links to download APKs and game distribution archives
+
+### 6. Mobile Code Editor
+- In-app file editing with syntax highlighting
+- Undo & redo history stack
+- In-file text find/search
+- File path renaming and branch selection
+- **Three-Step Safe Commit Pipeline**:  
+  `Review Changes (Visual Diff) → Commit Message → Confirm & Push`
+
+### 7. Notification & Release Centers
+- **Notification Inbox**: Filter by unread, one-tap mark as read, mark all read, and categorical icons (Issues, PRs, Commits, Releases)
+- **Release Distribution Hub**: Downloadable production `.apk` binaries and web bundles with file size badges and download tallies
+
+### 8. Global GitHub Search
+- Multi-category search spanning Repositories, Users, and Issues
+- Real-time debounced queries with animated results
+
+### 9. Settings & Developer Hub
+- Live GitHub API rate-limit monitor with reset countdown timer
+- Toggle background particle effects, haptic feedback, and auto-sync
+- Android Keystore AES-256 encryption status check
+- Safe local cache purge
+- Replay cinematic intro anytime
+
+---
+
+## 🛡️ Architecture & Clean Layering
+
+```
+GameSiteOnline/
+├── src/
+│   ├── api/             # Official GitHub REST v3 client, Device Flow & fallback data
+│   │   ├── githubApi.ts
+│   │   └── mockFallbackData.ts
+│   ├── services/        # Android Keystore SecureStorage & Authentication service
+│   │   ├── authService.ts
+│   │   └── storage.ts
+│   ├── context/         # React Context for global Auth and App state
+│   │   ├── AuthContext.tsx
+│   │   └── AppContext.tsx
+│   ├── models/          # Strict TypeScript interfaces for GitHub API entities
+│   │   └── github.ts
+│   ├── theme/           # Cyberpunk neon dark color palette & language colors
+│   │   └── colors.ts
+│   ├── components/      # Modular glassmorphism UI components
+│   │   ├── Logo.tsx
+│   │   ├── GlassCard.tsx
+│   │   ├── NeonButton.tsx
+│   │   ├── Header.tsx
+│   │   ├── BottomNav.tsx
+│   │   ├── ParticleBackground.tsx
+│   │   ├── CodeViewer.tsx
+│   │   ├── DiffViewer.tsx
+│   │   ├── MarkdownViewer.tsx
+│   │   ├── RateLimitBadge.tsx
+│   │   ├── SkeletonLoader.tsx
+│   │   └── ErrorState.tsx
+│   └── screens/         # Complete application screen views
+│       ├── IntroScreen.tsx
+│       ├── AuthScreen.tsx
+│       ├── HomeScreen.tsx
+│       ├── RepositoriesScreen.tsx
+│       ├── RepoDetailScreen.tsx
+│       ├── CodeEditorScreen.tsx
+│       ├── ReleasesScreen.tsx
+│       ├── NotificationsScreen.tsx
+│       ├── ActivityScreen.tsx
+│       ├── GlobalSearchScreen.tsx
+│       ├── ProfileScreen.tsx
+│       ├── SettingsScreen.tsx
+│       └── AboutScreen.tsx
+├── assets/              # Authentic GameSiteOnline branding & icons
+├── App.tsx              # Root coordinator & safe-area navigation
+└── app.json             # Expo / Android production configuration
+```
+
+---
+
+## 📦 Android Package Configuration
+
+- **Package Name**: `com.gamesiteonline.app`
+- **Application Name**: `GameSiteOnline`
+- **Theme**: Dark Edge-to-Edge (`#070B14`)
+- **Orientation**: Portrait with tablet responsiveness
+- **Adaptive Icon**: Black background with official glowing chevron emblem
+
+---
+
+## 🛠️ Verification & Building
+
+To export all bundles for production:
+\`\`\`bash
+npx expo export --platform all
+\`\`\`
+
+To build the signed release APK or Android App Bundle (AAB):
+Refer to [SIGNING.md](./SIGNING.md) for step-by-step keystore generation and EAS / Gradle release workflows.
